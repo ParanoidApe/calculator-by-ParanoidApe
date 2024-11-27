@@ -52,3 +52,9 @@ button {
 button:hover {
     background-color: #444;
 }
+
+/* Highlight effect for active buttons */
+button.active {
+    background-color: #0f0;
+    color: #000;
+}
