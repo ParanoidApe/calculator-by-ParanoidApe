@@ -28,11 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle keyboard input
     document.addEventListener('keydown', (e) => {
         const key = e.key;
+        const code = e.code;
 
         // Map numpad and regular keys to calculator buttons
         if (!isNaN(key) || ['+', '-', '*', '/', '.'].includes(key)) {
             handleInput(key);
-        } else if (key === 'Enter') {
+        } else if (code.startsWith('Numpad')) {
+            handleInput(code.replace('Numpad', '')); // Map Numpad keys
+        } else if (key === 'Enter' || code === 'NumpadEnter') {
             handleInput('=');
         } else if (key === 'Backspace') {
             currentInput = currentInput.slice(0, -1); // Remove last character
@@ -43,7 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Highlight the corresponding button
         const button = [...document.querySelectorAll('button')].find(btn =>
-            btn.textContent === key || (key === 'Enter' && btn.textContent === '=')
+            btn.textContent === key || 
+            (key === 'Enter' && btn.textContent === '=') || 
+            (code.startsWith('Numpad') && btn.textContent === code.replace('Numpad', ''))
         );
         if (button) {
             button.classList.add('active');
